@@ -1,6 +1,5 @@
-package com.example.practice.data;
+package com.example.practice.data.emp;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;

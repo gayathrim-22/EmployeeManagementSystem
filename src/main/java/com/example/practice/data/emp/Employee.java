@@ -1,7 +1,8 @@
-package com.example.practice.data;
+package com.example.practice.data.emp;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 @Entity
 @Table(name="employee")
 @Data

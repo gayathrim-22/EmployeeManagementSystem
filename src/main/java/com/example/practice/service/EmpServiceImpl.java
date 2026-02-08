@@ -1,32 +1,31 @@
 package com.example.practice.service;
 
-import com.example.practice.data.CreateEmpReq;
-import com.example.practice.data.CreateEmpRes;
-import com.example.practice.data.EmpRepo;
-import com.example.practice.data.Employee;
+import com.example.practice.data.emp.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
+
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class EmpServiceImpl implements EmpService{
-    @Autowired
-    private ObjectMapper mapper;
-    @Autowired
-    private EmpRepo empRepo;
+
+    private final ObjectMapper mapper;
+    private final EmpRepo empRepo;
+
     @Override
     public ResponseEntity<CreateEmpRes>createEmployee(CreateEmpReq createEmpReq) {
 
         boolean exists = empRepo.existsByName(createEmpReq.getName());
         if(exists == true) {
-            throw new IllegalArgumentException("User with given email/mobile already exists");
+            throw new IllegalArgumentException("User with given name already exists");
         }
         Employee employee=mapper.convertValue(createEmpReq,Employee.class);
-        //Set the required values depeneding on the requirement
-//        employee.setActive(true);
 
         Employee employee1=empRepo.save(employee);
 
@@ -38,6 +37,15 @@ public class EmpServiceImpl implements EmpService{
 
         //return the response object with ResponseEntity
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Override
+    public ResponseEntity<EmployeeDTO> getEmpById(Long id) {
+        Optional<Employee> optional = empRepo.findById(id);
+        Employee employee=optional.get();
+        EmployeeDTO employeeDTO=mapper.convertValue(employee,EmployeeDTO.class);
+        log.info("employeeDTO {}",employeeDTO);
+        return ResponseEntity.ok().body(employeeDTO);
     }
 
     @Override

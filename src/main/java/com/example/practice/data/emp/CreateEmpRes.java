@@ -1,4 +1,4 @@
-package com.example.practice.data;
+package com.example.practice.data.emp;
 
 import lombok.Data;
 
