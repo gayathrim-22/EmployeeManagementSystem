@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/employees")
 @Slf4j
 @RequiredArgsConstructor
 public class EmployeeController {
@@ -24,7 +24,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<EmployeeDTO> getEmpById(@PathVariable Long id){
+    public ResponseEntity<EmployeeDTO> getEmpById(@PathVariable Long id){
         log.info("getUserById()");
         ResponseEntity<EmployeeDTO> response = empService.getEmpById(id);
         return response;

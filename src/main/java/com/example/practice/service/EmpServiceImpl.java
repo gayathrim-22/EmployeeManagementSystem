@@ -29,11 +29,11 @@ public class EmpServiceImpl implements EmpService{
 
         Employee employee1=empRepo.save(employee);
 
-        long userId = employee1.getId();
+        long empId = employee1.getId();
 
         CreateEmpRes response=new CreateEmpRes();
-        response.setId(userId);
-        response.setMessage("User Created");
+        response.setId(empId);
+        response.setMessage("Employee Created");
 
         //return the response object with ResponseEntity
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
