@@ -58,5 +58,16 @@ public class UserController {
         log.info("UserController --> updateUserEmail()");
         return userService.updateUserEmail(userId, updateUserEmailReq);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        boolean deleted = userService.deleteUser(id);
+        if (deleted) {
+            return ResponseEntity.ok("User deleted successfully with ID " + id);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
 

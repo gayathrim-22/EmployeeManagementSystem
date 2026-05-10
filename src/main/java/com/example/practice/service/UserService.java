@@ -54,5 +54,11 @@ public class UserService {
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    public boolean deleteUser(Long id) {
+        return userRepository.findById(id).map(user -> {
+            userRepository.delete(user);
+            return true;
+        }).orElse(false);
+    }
 }
 
