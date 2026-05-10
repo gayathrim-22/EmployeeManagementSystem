@@ -1,9 +1,11 @@
 package com.example.practice.service;
 
+import com.example.practice.data.emp.UpdateUserEmailReq;
 import com.example.practice.data.emp.User;
 import com.example.practice.repo.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +43,15 @@ public class UserService {
         user.setEmail(userDetails.getEmail());
         // changes auto-flushed at transaction commit
         return user;
+    }
+
+
+    public ResponseEntity<String> updateUserEmail(Long id, UpdateUserEmailReq updateEmailReq) {
+        return userRepository.findById(id).map(user -> {
+            user.setEmail(updateEmailReq.getEmail());
+            userRepository.save(user);
+            return ResponseEntity.ok("Email updated successfully for user " + id);
+        }).orElse(ResponseEntity.notFound().build());
     }
 
 }

@@ -1,7 +1,10 @@
 package com.example.practice.controller;
 
+import com.example.practice.data.emp.UpdateUserEmailReq;
 import com.example.practice.data.emp.User;
 import com.example.practice.service.UserService;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -45,6 +49,14 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PatchMapping("/email")
+    public ResponseEntity<String> updateUserEmail(
+            @RequestHeader Long userId,
+            @RequestBody @Valid UpdateUserEmailReq updateUserEmailReq) {
+        log.info("UserController --> updateUserEmail()");
+        return userService.updateUserEmail(userId, updateUserEmailReq);
     }
 }
 
