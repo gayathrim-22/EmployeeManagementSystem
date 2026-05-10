@@ -2,6 +2,7 @@ package com.example.practice.service;
 
 import com.example.practice.data.emp.User;
 import com.example.practice.repo.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,24 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+//    public User updateUser(Long id, User userDetails) {
+//        return userRepository.findById(id).map(user -> {
+//            user.setName(userDetails.getName());
+//            user.setEmail(userDetails.getEmail());
+//            return userRepository.save(user);
+//        }).orElse(null);
+//    }
+
+    @Transactional
+    public User updateUser(Long id, User userDetails) {
+        User user = userRepository.findById(id)
+                                  .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setName(userDetails.getName());
+        user.setEmail(userDetails.getEmail());
+        // changes auto-flushed at transaction commit
+        return user;
     }
 
 }
